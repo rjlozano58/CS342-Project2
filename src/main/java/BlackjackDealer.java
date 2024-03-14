@@ -1,7 +1,11 @@
+// Rogelio Lozano and Pradyun Shrestha
+// CS 342 - Software Design - Prof. McCarthy
+// Project 2: Blackjack
+// Description: Class representing a dealer in a Blackjack game
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-// Class representing a dealer in a Blackjack game
 public class BlackjackDealer {
     // List to hold the deck of cards
     public ArrayList<Card> deck = new ArrayList<>();

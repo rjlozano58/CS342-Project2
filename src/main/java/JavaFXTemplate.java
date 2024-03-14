@@ -1,7 +1,16 @@
+// Rogelio Lozano and Pradyun Shrestha
+// CS 342 - Software Design - Prof. McCarthy
+// Project 2: Blackjack
+// Description: Created a Blackjack game with 4 helper classes. Our UI goes through
+//				the screens (Intro) -> (inital Money input) -> (round bet input) -> (main game)
+//
+//				The User repeats through (round bet input) and (main game) until the player
+//				runs out of total money.
+
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,7 +32,7 @@ public class JavaFXTemplate extends Application {
 		launch(args);
 	}
 
-	//feel free to remove the starter code from this method
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Welcome to JavaFX");
@@ -68,54 +77,65 @@ public class JavaFXTemplate extends Application {
 
 		//////////////////////////////////////////////(+)MAIN SCENE////////////////////////////////////////////////
 
+		// Text fields
 		TextField currBetText = new TextField();
-		currBetText.setDisable(true);
 		TextField totalMoneyText = new TextField();
-		totalMoneyText.setDisable(true);
 		TextField dealerText = new TextField();
 		TextField playerText = new TextField();
+
+		// Other UI elements
 		Text resultText = new Text("");
+		resultText.setFont(Font.font(null, FontWeight.BOLD, 40));
 		Label playerTitle = new Label("PLAYER"); // top left
 		Label dealerTitle = new Label("DEALER"); // top Right
 
+		// Buttons
 		Button restartButton = new Button("New Round");
-		restartButton.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
 		Button hitButton = new Button("Hit");
+		Button stayButton = new Button("Stay");
+		Button dealButton = new Button("Deal");
+
+		// Styling buttons
+		restartButton.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
 		hitButton.setMinWidth(100);
 		hitButton.setMaxWidth(100);
 		hitButton.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
-		Button stayButton = new Button("Stay");
 		stayButton.setMinWidth(100);
 		stayButton.setMaxWidth(100);
 		stayButton.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
-		Button dealButton = new Button("Deal");
 		dealButton.setPrefHeight(25);
 		dealButton.setMinWidth(100);
 		dealButton.setMaxWidth(100);
 		dealButton.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
+
+		// VBox holds buttons
 		VBox leftButtons = new VBox(10,dealButton, hitButton,stayButton);
+		leftButtons.setAlignment(Pos.CENTER);
 
-
-
+		// Styling for labels
 		playerTitle.setFont(Font.font("Arial", FontWeight.BOLD, 40));
 		dealerTitle.setFont(Font.font("Arial", FontWeight.BOLD, 40));
-		leftButtons.setAlignment(Pos.CENTER);
+
+		// HBox  holding buttons, player hand, and dealer hand
 		HBox playerAndDealer = new HBox(20,leftButtons,playerText,dealerText);
 
-
+		// Create HBox with total Money in it
 		Label totalMoneyLabel = new Label("Total Money:");
 		totalMoneyLabel.setTextAlignment(TextAlignment.LEFT);
 		HBox totalMoneyBox = new HBox(10, totalMoneyLabel, totalMoneyText);
 		totalMoneyBox.setAlignment(Pos.CENTER);
 
+		// Create HBox with current bet in it
 		Label currBetLabel = new Label("Current Bet:");
 		currBetLabel.setTextAlignment(TextAlignment.LEFT);
 		HBox currBetBox = new HBox(10,currBetLabel, currBetText);
 		currBetBox.setAlignment(Pos.CENTER);
 
+		// Vbox holding both total Money and current bet, positioned at top of page
 		VBox moneyBox = new VBox(10,totalMoneyBox, currBetBox);
 		moneyBox.setAlignment(Pos.TOP_CENTER);
-
+		moneyBox.setPrefWidth(300);
+		moneyBox.setMaxWidth(400);
 
 		// total money displayed on main screen
 		totalMoneyText.setText("$"+game.totalWinnings);
@@ -146,7 +166,6 @@ public class JavaFXTemplate extends Application {
 		playerText.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 50px; -fx-pref-height: 50px;");
 		playerText.setEditable(false);
 
-		resultText.setFont(Font.font(null, FontWeight.BOLD, 36));
 
 		//set player and dealer text
 		playerTitle.setTextFill(Paint.valueOf("#0E86D4")); // changed from dark blue to lighter blue
@@ -158,9 +177,8 @@ public class JavaFXTemplate extends Application {
 		dealerTitleBox.setAlignment(Pos.TOP_RIGHT);
 
 
+		// Create StackPane to hold all objects
 		StackPane root = new StackPane();
-		moneyBox.setPrefWidth(300);
-		moneyBox.setMaxWidth(400);
 		root.getChildren().add(moneyBox);
 		root.getChildren().add(dealerTitle);
 		root.getChildren().add(playerTitle);
@@ -169,6 +187,7 @@ public class JavaFXTemplate extends Application {
 		root.getChildren().add(restartButton);
 		playerAndDealer.setAlignment(Pos.CENTER);
 
+		// align all items on the StackPane
 		StackPane.setAlignment(playerTitle,Pos.TOP_LEFT);
 		StackPane.setAlignment(dealerTitle,Pos.TOP_RIGHT);
 		StackPane.setAlignment(playerAndDealer,Pos.CENTER);
@@ -179,21 +198,24 @@ public class JavaFXTemplate extends Application {
 
 		root.setStyle("-fx-background: #1a4a09; -fx-padding: 50px;");
 
-
 		Scene mainScene = new Scene(root,1500,900);
-		primaryStage.setScene(introScene);
+		primaryStage.setScene(introScene); //This is the first screen that shows up
 
 		//////////////////////////////////////////(-)END OF MAIN SCENE/////////////////////////////////////////////////
 
 
 		/////////////////////////////////////////////(+)SET ROUND BET////////////////////////////////////////////////////
 
+		// UI elements for betting scene
 		Label placeBetText = new Label("Set your bet for this round!");
 		TextField newBetTextField = new TextField();
 		Button submitBet = new Button("Submit");
 		Label errorMessage = new Label("");
+
+		// VBox to contain betting UI elements
 		VBox bettingBox = new VBox(40,placeBetText,newBetTextField,submitBet,errorMessage);
 
+		// Styling for UI elements
 		placeBetText.setStyle(" -fx-font-size: 25px; ");
 		newBetTextField.setPrefHeight(100);
 		newBetTextField.setPrefWidth(250);
@@ -201,10 +223,14 @@ public class JavaFXTemplate extends Application {
 		submitBet.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
 		errorMessage.setStyle(" -fx-font-size: 25px; ");
 
+		// StackPane to hold betting elements
 		StackPane betRoot = new StackPane();
 		betRoot.setStyle("-fx-background: #1a4a09; -fx-padding: 50px;");
 		betRoot.getChildren().add(bettingBox);
+
 		StackPane.setAlignment(bettingBox,Pos.CENTER);
+
+		// Create betting scene
 		Scene bettingScene = new Scene(betRoot,1500,900);
 
 		submitBet.setOnAction(action -> {
@@ -220,7 +246,7 @@ public class JavaFXTemplate extends Application {
 					errorMessage.setText("");
 					game.currentBet = betAmount;
 					primaryStage.setScene(mainScene);
-					currBetText.setText("$" + String.format("%.2f",game.currentBet)); ///////
+					currBetText.setText("$" + String.format("%.2f",game.currentBet));
 
 					hitButton.setDisable(true);
 					stayButton.setDisable(true);
@@ -236,12 +262,16 @@ public class JavaFXTemplate extends Application {
 		/////////////////////////////////////////////(-)SET ROUND BET////////////////////////////////////////////////////
 
 		/////////////////////////////////////////////(+)SET TOTAL BET////////////////////////////////////////////////////
+		// UI elements for setting total money in betting scene
 		Label totalBetLabel = new Label("Set your total Money!");
 		TextField totalBetTextField = new TextField();
 		Button submitTotalBet = new Button("Submit");
 		Label errorTotalMessage = new Label("");
+
+		// VBox to contain total money UI elements
 		VBox bettingTotalBox = new VBox(40,totalBetLabel,totalBetTextField,submitTotalBet,errorTotalMessage);
 
+		// Styling for total money UI elements
 		totalBetLabel.setStyle(" -fx-font-size: 25px; ");
 		totalBetTextField.setPrefHeight(100);
 		totalBetTextField.setPrefWidth(250);
@@ -249,10 +279,13 @@ public class JavaFXTemplate extends Application {
 		submitTotalBet.setStyle("-fx-background-color: #6e0305;-fx-text-fill: white; -fx-font-size: 16px;-fx-border-color: #000000; -fx-border-width: 2px; -fx-border-radius: 2px;");
 		errorTotalMessage.setStyle(" -fx-font-size: 25px; ");
 
+		// StackPane to hold elements
 		StackPane betTotalRoot = new StackPane();
 		betTotalRoot.setStyle("-fx-background: #1a4a09; -fx-padding: 50px;");
 		betTotalRoot.getChildren().add(bettingTotalBox);
 		StackPane.setAlignment(bettingTotalBox,Pos.CENTER);
+
+		// Create Initial bet scene
 		Scene bettingTotalScene = new Scene(betTotalRoot,1500,900);
 
 		submitTotalBet.setOnAction(action -> {
@@ -281,10 +314,12 @@ public class JavaFXTemplate extends Application {
 
 		///////////////////////////////////////////(+)EVENT HANDLERS//////////////////////////////////////////////////////
 
+		// Intro Screen play button
 		playButton.setOnAction(action -> {
 			primaryStage.setScene(bettingTotalScene);
 		});
 
+		// Button "Deal" deals cards, changing the proper UI elements, and checking for a black jack from the player
 		dealButton.setOnAction(action -> {
 			game.theDealer.generateDeck();
 			game.theDealer.shuffleDeck();
@@ -314,7 +349,8 @@ public class JavaFXTemplate extends Application {
 
 		});
 
-		//////Restart Game button///////////////
+		// Restart Game button, brings us back to the round betting scene if our total money is not 0
+		// BUT if we have 0 or negative money after the round, we start over all the way from the start screen
 		restartButton.setOnAction(action -> {
 			hitButton.setDisable(true);
 			stayButton.setDisable(true);
@@ -331,7 +367,8 @@ public class JavaFXTemplate extends Application {
 		});
 
 
-		//////Hit button///////////////
+		//Hit button
+		// contains logic, everytime that the player hits, we check if they got 21 or if they went over 21.
 		hitButton.setOnAction(actionEvent -> {
 
 			game.playerHand.add(game.theDealer.drawOne());
@@ -361,8 +398,12 @@ public class JavaFXTemplate extends Application {
 			}
 		});
 
-		//////Stay button///////////////
+		// Stay button
+		// Stay button runs logic for the banker to pull cards if the hand total is < 17
+		// When the dealer stops pulling, if they don't bust, we compare the final values to see who wins
 		stayButton.setOnAction(action -> {
+
+			// Disable playing buttons, your turn is over
 			hitButton.setDisable(true);
 			stayButton.setDisable(true);
 
@@ -370,6 +411,9 @@ public class JavaFXTemplate extends Application {
 			boolean finalComparison = false;
 
 			while(BankersTurn){
+
+				// dealerTotal < 17 -> draw
+				// dealerTotal >= 17 -> stop, and don't draw
 				if (game.gameLogic.evaluateBankerDraw(game.bankerHand)){
 
 					Card bankerDrawCard = game.theDealer.drawOne();
@@ -377,7 +421,7 @@ public class JavaFXTemplate extends Application {
 					String newHand = game.gameLogic.printHand(game.bankerHand);
 					dealerText.setText(newHand);
 
-				}else{
+				}else{ // Stops loop, and goes to final comparison
 
 					BankersTurn = false;
 					finalComparison = true;
@@ -410,11 +454,12 @@ public class JavaFXTemplate extends Application {
 
 			dealerText.setText(game.gameLogic.printHand(game.bankerHand));
 
+			// Only goes to final comparison if dealer doesn't need to draw anymore
 			if (finalComparison){
 
 				String theWinner = game.gameLogic.whoWon(game.playerHand,game.bankerHand);
 
-				if (theWinner.equals("dealer")){
+				if (theWinner.equals("dealer")){ // Dealer wins
 
 					game.gameLogic.printHand(game.playerHand);
 					game.gameLogic.printHand(game.bankerHand);
@@ -425,7 +470,7 @@ public class JavaFXTemplate extends Application {
 					game.totalWinnings -= game.currentBet;
 					totalMoneyText.setText("$" + String.format("%.2f",game.totalWinnings));
 
-				}else if (theWinner.equals("player")){
+				}else if (theWinner.equals("player")){ // Player wins
 
 					resultText.setText("PLAYER WINS");
 					hitButton.setDisable(true);
@@ -434,7 +479,7 @@ public class JavaFXTemplate extends Application {
 					game.totalWinnings += game.currentBet;
 					totalMoneyText.setText("$" + String.format("%.2f",game.totalWinnings));
 
-				}else{
+				}else{ //Draw
 
 					game.gameLogic.printHand(game.playerHand);
 					game.gameLogic.printHand(game.bankerHand);

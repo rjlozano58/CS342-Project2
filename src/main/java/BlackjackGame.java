@@ -1,6 +1,10 @@
+// Rogelio Lozano and Pradyun Shrestha
+// CS 342 - Software Design - Prof. McCarthy
+// Project 2: Blackjack
+// Description: Class representing a Blackjack game
+
 import java.util.ArrayList;
 
-// Class representing a Blackjack game
 public class BlackjackGame {
     // List to hold the player's hand of cards
     public ArrayList<Card> playerHand = new ArrayList<Card>();

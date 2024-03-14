@@ -1,6 +1,10 @@
+// Rogelio Lozano and Pradyun Shrestha
+// CS 342 - Software Design - Prof. McCarthy
+// Project 2: Blackjack
+// Description: Class for handling the logic of a Blackjack game
+
 import java.util.ArrayList;
 
-// Class for handling the logic of a Blackjack game
 public class BlackjackGameLogic {
 
     // Method to determine the winner based on the player's and dealer's hands

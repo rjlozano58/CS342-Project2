@@ -1,4 +1,7 @@
-// Class representing a playing card
+// Rogelio Lozano and Pradyun Shrestha
+// CS 342 - Software Design - Prof. McCarthy
+// Project 2: Blackjack
+// Description: Class representing a playing card
 public class Card {
     // Fields for the suit and value of the card
     String suit = "";
